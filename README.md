@@ -7,7 +7,10 @@
 [![CMake](https://github.com/tommccallum/yourapp/workflows/CMake/badge.svg)
 --->
 
-## Requirements
+## Getting started
+
+* Open CMakeLists.txt
+* Change PROJECT_NAME from 'new_project' to a name of your choice.
 
 ## Build instructions
 
@@ -47,13 +50,13 @@ The application will be created in the _bin_ directory of the build directory. T
 
 ## Code Coverage
 
-Requires the gcov tool to be installed
+Requires the gcov or lcov tool to be installed
 
 ```
-cmake -DENABLE_GCOV ..
+cmake -DENABLE_COVERAGE=ON ..
 make
 make test
-make gcov
+make lcov
 ```
 
 ## Verbose Make

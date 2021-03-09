@@ -1,0 +1,56 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Remove build",
+			"command": "/bin/rm",
+			"args": ["-rf", "${workspaceFolder}/build"],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "Create build",
+			"dependsOrder": "sequence",
+			"dependsOn": [ "Remove build" ],
+			"command": "/bin/mkdir",
+			"args": ["-p", "${workspaceFolder}/build"],
+			"options": {
+				"cwd": "${workspaceFolder}"
+			}
+		},
+		{
+			"label": "CMake Build",
+			"command": "/usr/bin/cmake",
+			"args": [
+				".."
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			}
+		},
+		{
+			"label": "Make",
+			"command": "/usr/bin/make",
+			"args": ["-j", "4"],
+			"options": {
+				"cwd": "${workspaceFolder}/build"
+			},
+		},
+		{
+			"label": "Build",
+			"dependsOrder": "sequence",
+			"dependsOn": [ "CMake Build", "Make" ],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "Clean Build",
+			"dependsOrder": "sequence",
+			"dependsOn": [ "Create build", "Build" ],
+			"group": "build"
+		},
+	]
+}

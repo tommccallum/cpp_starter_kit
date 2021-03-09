@@ -3,6 +3,7 @@ set(PROJ_NAME "new_project")
 project(${PROJ_NAME} LANGUAGES CXX VERSION 0.1)
 string(TIMESTAMP TODAY "%Y-%m-%d %H:%m")
 
+
 include(cmake/standard_project_settings.cmake)
 include(cmake/prevent_in_source_builds.cmake)
 # Link this 'library' to set the c++ standard / compile-time options requested
@@ -13,6 +14,7 @@ target_compile_features(project_options INTERFACE cxx_std_17)
 
 message(${CMAKE_CXX_COMPILER_ID})
 
+# IMPORTANT: option ENABLE_COVERAGE turns on code coverage in CMake-codecov module
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable Test Builds" ON)
 option(ENABLE_FUZZING "Enable Fuzzing Builds, requires Clang compiler" OFF)
@@ -23,8 +25,7 @@ option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
 option(ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
 
 # turned on by .travis.yml script
-option(ENABLE_CODECOV "Enable coverage reporting for gcc/clang" OFF)
-option(ENABLE_GCOV "Enable gcov code coverage tool" OFF)
+#option(ENABLE_GCOV "Enable gcov code coverage tool" OFF)
 
 # Configuration types
 # SET(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configs" FORCE)
@@ -71,6 +72,8 @@ set(CONAN_EXTRA_OPTIONS "")
 include(cmake/conan.cmake)
 run_conan()
 
+# enable code coverage
+include(cmake/codecov.cmake)
 
 
 if(ENABLE_TESTING)
@@ -117,3 +120,9 @@ endif()
 INSTALL(TARGETS ${PROJ_NAME}
     DESTINATION  "${${PROJ_NAME}_PATH_INSTALL}/lib/${CMAKE_BUILD_TYPE}/"
     )
+
+
+if(ENABLE_COVERAGE)
+  message("calling coverage_evaluate()")
+  coverage_evaluate()
+endif()

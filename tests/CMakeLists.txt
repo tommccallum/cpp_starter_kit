@@ -17,6 +17,10 @@ add_executable(${TESTS_EXECUTABLE}
                 test_catch.cpp 
                 test_1.cpp
                 )
+if(ENABLE_COVERAGE)
+  add_coverage(${TESTS_EXECUTABLE})
+endif()
+              
 target_link_libraries(${TESTS_EXECUTABLE} PRIVATE project_warnings project_options catch_main CONAN_PKG::fmt)
 
 # automatically discover tests that are defined in catch based test files you can modify the unittests. 

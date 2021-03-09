@@ -5,6 +5,10 @@ add_executable(
   ${PROJECT_NAME}
   main.cpp
   )
+if(ENABLE_COVERAGE)
+  add_coverage(${PROJECT_NAME})
+endif()
+
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR}/src)
 target_link_libraries(
   ${PROJECT_NAME}
